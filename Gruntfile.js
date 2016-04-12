@@ -21,17 +21,16 @@ module.exports = function(grunt) {
           },
           {
             width: 100,
-            quality: 60
+            quality: 60,
           }]
         },
 
         /*
-        You don't need to change this part if you don't change
-        the directory structure.
+        only for gif and jpg currently
         */
         files: [{
           expand: true,
-          src: ['*.{gif,jpg,png}'],
+          src: ['*.{gif,jpg}'],
           cwd: 'src/views/images/',
           dest: 'src/views/images/precompressed/'
         }]
@@ -62,9 +61,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'src',
-            src: ['*/*',  '!**/views/images/**', '!**/img/**'],
+            src: ['**/*',  '!**/views/images/**', '!**/img/**'],
             dest: 'dist/',
-            filter: 'isFile',
             noProcess: ''
           }]
       },
@@ -72,7 +70,7 @@ module.exports = function(grunt) {
         files:[
         {/* Copy the "fixed" images that don't go through processing into the images/directory and everything into dist*/
             expand: true,
-            src: 'src/views/images/fixed/*.{gif,jpg,png,svg}',
+            src: 'src/views/images/*.{gif,jpg,png,svg}',
             dest: 'src/views/images/precompressed/',
             flatten: true,
           }]
@@ -139,7 +137,7 @@ module.exports = function(grunt) {
     htmlmin: {                                     // Task
       dist: {                                      // Target
         options: {                                 // Target options
-          removeComments: true,
+          //removeComments: true,
           collapseWhitespace: true
         },
         files: [{
