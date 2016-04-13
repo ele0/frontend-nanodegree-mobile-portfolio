@@ -7,22 +7,13 @@
     <meta name="author" content=" FILL ME IN ">
     <title>Cameron Pittman: Portfolio</title>
 
-    <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-
+    <!-- build:css inline ../dist/css/style.min.css-->
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/print.css" rel="stylesheet" async>
+    <!-- /build -->
 
-    <script>
-      (function(w,g){w['GoogleAnalyticsObject']=g;
-      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
+    <link href="css/print.css" rel="stylesheet" media="print">
 
-      // Optional TODO: replace with your Google Analytics profile ID.
-      ga('create', 'UA-XXXX-Y');
-      ga('send', 'pageview');
-    </script>
-    <script src="http://www.google-analytics.com/analytics.js"></script>
-    <script async src="js/perfmatters.js"></script>
+
   </head>
 
   <body>
@@ -67,5 +58,29 @@
     <footer>
       <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
     </footer>
+
+    <script>
+      (function(w,g){w['GoogleAnalyticsObject']=g;
+      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
+
+      // Optional TODO: replace with your Google Analytics profile ID.
+      ga('create', 'UA-XXXX-Y');
+      ga('send', 'pageview');
+    </script>
+    <script async src="http://www.google-analytics.com/analytics.js"></script>
+    <script async src="js/perfmatters.js"></script>
+
+    <script type="text/javascript">
+  WebFontConfig = {
+    google: { families: [ 'Open+Sans:400,700:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); </script>
   </body>
 </html>

@@ -37,10 +37,25 @@ module.exports = function(grunt) {
       }
     },
 
+    cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'src/css',
+          src: ['*.css', '!*.min.css'],
+          dest: 'dist/css',
+          ext: '.min.css'
+        }]
+      }
+    },
+
     /* Clear out the images directory if it exists */
     clean: {
       dev: {
         src: ['dist/*', 'src/views/images/precompressed/*'],
+      },
+      dist: {
+        src: ['dist*//*.min.*'],
       },
     },
 
@@ -134,6 +149,17 @@ module.exports = function(grunt) {
       }
     },
 
+    processhtml: {
+       dist: {
+         options: {
+
+         },
+         files: {
+           'dist/index.min.html': ['src/index.html']
+         }
+       }
+     },
+
     htmlmin: {                                     // Task
       dist: {                                      // Target
         options: {                                 // Target options
@@ -148,9 +174,13 @@ module.exports = function(grunt) {
         }]
       },
       dev: {                                       // Another target
-        files: {
-          'dist/index.html': 'src/index.html'
-        }
+        options: {
+           //removeComments: true,
+           collapseWhitespace: true
+         },
+         files: {
+           'dist/index.html': 'dist/index.min.html'
+         }
       }
     },
 
@@ -173,15 +203,17 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-responsive-images');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-    // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-inline');
+  grunt.loadNpmTasks('grunt-processhtml');
 
   // default tasks
-  grunt.registerTask('default', ['clean', 'mkdir', 'copy:main','responsive_images', 'imagemin', 'copy:dev', 'htmlmin:dist']);
+  grunt.registerTask('default', ['clean:dev', 'mkdir', 'copy:main','responsive_images', 'imagemin', 'cssmin' ,'copy:dev', 'htmlmin:dist', 'processhtml', 'htmlmin:dev', 'clean:dist']);
 
 
 };
