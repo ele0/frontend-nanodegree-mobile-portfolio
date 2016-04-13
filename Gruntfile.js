@@ -2,23 +2,12 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    // Reduce size of image
     responsive_images: {
       dev: {
         options: {
           engine: 'im',
           sizes: [
-          {
-            width: 1024,
-            quality: 60
-          },
-          {
-            width: 800,
-            quality: 60
-          },
-          {
-            width: 500,
-            quality: 60
-          },
           {
             width: 100,
             quality: 60,
@@ -32,7 +21,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.{gif,jpg}'],
           cwd: 'src/views/images/',
-          dest: 'src/views/images/precompressed/'
+          dest: 'dist/views/images/'
         }]
       }
     },
@@ -54,6 +43,7 @@ module.exports = function(grunt) {
       dev: {
         src: ['dist/*', 'src/views/images/precompressed/*'],
       },
+      // delete temporary min file
       dist: {
         src: ['dist*//*.min.*'],
       },
@@ -76,14 +66,14 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'src',
-            src: ['**/*',  '!**/views/images/**', '!**/img/**'],
+            src: ['**/*', '!**/*.html'],
             dest: 'dist/',
             noProcess: ''
           }]
       },
       main: {
         files:[
-        {/* Copy the "fixed" images that don't go through processing into the images/directory and everything into dist*/
+        {/* Copy the precompressed images that don't go through processing into the images/directory and everything into dist*/
             expand: true,
             src: 'src/views/images/*.{gif,jpg,png,svg}',
             dest: 'src/views/images/precompressed/',
@@ -102,7 +92,7 @@ module.exports = function(grunt) {
             // Set to true to enable the following options…
             expand: true,
             // cwd is 'current working directory'
-            cwd: 'src/views/images/precompressed/',
+            cwd: 'dist/views/images/',
             src: ['**/*.png'],
             // Could also match cwd line above.
             dest: 'dist/views/images/',
@@ -112,7 +102,7 @@ module.exports = function(grunt) {
             // Set to true to enable the following options…
             expand: true,
             // cwd is 'current working directory'
-            cwd: 'src/img/',
+            cwd: 'dist/img/',
             src: ['**/*.png'],
             // Could also match cwd line above.
             dest: 'dist/img/',
@@ -129,7 +119,7 @@ module.exports = function(grunt) {
             // Set to true to enable the following options…
             expand: true,
             // cwd is 'current working directory'
-            cwd: 'src/views/images/precompressed/',
+            cwd: 'dist/views/images/',
             src: ['**/*.jpg'],
             // Could also match cwd.
             dest: 'dist/views/images/',
@@ -139,7 +129,7 @@ module.exports = function(grunt) {
             // Set to true to enable the following options…
             expand: true,
             // cwd is 'current working directory'
-            cwd: 'src/img/',
+            cwd: 'dist/img/',
             src: ['**/*.jpg'],
             // Could also match cwd.
             dest: 'dist/img/',
@@ -184,19 +174,18 @@ module.exports = function(grunt) {
       }
     },
 
-    /* Import info from package.json
-    pkg: grunt.file.readJSON('package.json'),
-
     uglify: {
-      options: {
-       banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> *//*\n'
-      },
       build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+        files: [{
+          expand: true,
+          cwd: 'src/js/',
+          src: ['*.js', '!*.min.js'],
+          dest: 'dist/js/',
+          ext: '.min.js'
+        }]
       }
-    }
-    */
+    },
+
 
 
   });
@@ -209,11 +198,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-inline');
   grunt.loadNpmTasks('grunt-processhtml');
 
   // default tasks
-  grunt.registerTask('default', ['clean:dev', 'mkdir', 'copy:main','responsive_images', 'imagemin', 'cssmin' ,'copy:dev', 'htmlmin:dist', 'processhtml', 'htmlmin:dev', 'clean:dist']);
+  grunt.registerTask('default', ['clean:dev', 'copy:dev','responsive_images', 'imagemin', 'cssmin', 'uglify', 'htmlmin:dist', 'processhtml', 'htmlmin:dev', 'clean:dist']);
 
 
 };
