@@ -502,10 +502,17 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+  /* changed way of accessing elements with a particular class to be more efficient */
   var items = document.getElementsByClassName("mover"); //document.querySelectorAll('.mover');
 
+  /* Moved the calculation of the position of the body element from the top out of the for loop because the value is
+  approximately constant. */
+  var topDist = document.body.scrollTop / 1250;
+
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    var phase = Math.sin(topDist + (i % 5));
+    //console.log(phase, (document.body.scrollTop / 1250 + (i % 5)));
+
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -526,6 +533,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+
+  //only subset of pizzas need to be shown/animated at any given point in time
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
