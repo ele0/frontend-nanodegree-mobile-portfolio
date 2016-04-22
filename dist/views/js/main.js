@@ -503,16 +503,17 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   /* changed way of accessing elements with a particular class to be more efficient */
-  var items = document.getElementsByClassName("mover"); //document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName("mover");
 
   /* Moved the calculation of the position of the body element from the top out of the for loop because the value is
   approximately constant. */
-  var topDist = document.body.scrollTop / 1250;
+  topDist = document.body.scrollTop / 1250;
 
   for (var i = 0; i < items.length; i++) {
+    //calculate phase using pre-calculated value
     var phase = Math.sin(topDist + (i % 5));
-    //console.log(phase, (document.body.scrollTop / 1250 + (i % 5)));
 
+    //set new distance based on moving of pizza by given scaled phase
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -529,13 +530,19 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
+// create variable once and reuse in updatePositions.
+var topDist = 0;
+
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
 
-  //only subset of pizzas need to be shown/animated at any given point in time
-  for (var i = 0; i < 200; i++) {
+  /* only subset of pizzas need to be shown/animated at any given point in time I count
+   * there are only 8 pizza's per row with each row 256 px apart vertically. Assuming worst case large screen of 1920 x 1200 in portrait,
+   * Max no of rows is 1920/256 = 7.5 ~> 8. So max i ~> 8*8 = 64. (although in portrait not all 8 per row will be drawn on screen)
+   */
+  for (var i = 0; i < 64; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
