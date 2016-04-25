@@ -9,6 +9,9 @@ To get started, check out the repository, inspect the code,
 To check PageSpeed score and test the site optimizations, use version of the site located here:
 <a href="http://ele0.github.io/frontend-nanodegree-mobile-portfolio"/>http://ele0.github.io/frontend-nanodegree-mobile-portfolio/</a>
 
+The FPS and slider changes can be viewed at:
+<a href="http://ele0.github.io/frontend-nanodegree-mobile-portfolio/views/pizza.html"/>http://ele0.github.io/frontend-nanodegree-mobile-portfolio/views/pizza.html</a>
+
 You can examine the code under file src/views/js/main.js. The files in the dist folder are uglified and minified.
 
 ####Part 1: Optimize PageSpeed Insights score for index.html
