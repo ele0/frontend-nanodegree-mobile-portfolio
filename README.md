@@ -6,35 +6,46 @@ To get started, check out the repository, inspect the code,
 
 ### Getting started
 
+To check PageSpeed score and test the site optimizations, use version of the site located here:
+<a href="http://ele0.github.io/frontend-nanodegree-mobile-portfolio"/>http://ele0.github.io/frontend-nanodegree-mobile-portfolio/</a>
+
+You can examine the code under file src/views/js/main.js. The files in the dist folder are uglified and minified.
+
 ####Part 1: Optimize PageSpeed Insights score for index.html
 
-Some useful tips to help you get started:
+The better PageSpeed insights score was achieved by:
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+* reduced the size of the images using compression via Imagemin and grunt
+* minified html, css and some javascript
+* making perf and analytics related javascript async
+* marking the print css file as media="print"
+* Inlining the minified css
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to make your local server accessible remotely.
+####Part 2: Optimize Frames per Second in pizza.html and slider sizes change
 
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ngrok http 8080
-  ```
+Focused on changing the code within the methods
+##### updatePositions() - line 497
+* Edited method to use 'getElementByClassName' instead of 'querySelector'
+* Moved the calculation involving the scroll position of the body element from the top out of the for loop because the value is
+  approximately constant.
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
+##### Pizza creation code
+* I also added an optimization between line 529 and 553 by reducing the number of pizzas being created and updated.
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+##### changeSliderLabel() - line 406
+* Modified to only get pizzaSize element once and reuse the variable pointing to the object
 
-####Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+##### changePizzaSizes() - line 428
+* get all pizzas to change once outside the loop and referenced that list within the loop in a batch
+* got rid of unnecessary conversions of the width and simplified by selecting and setting the correct width as a percentage
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+
+
+
+
+## Appendix
 
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
